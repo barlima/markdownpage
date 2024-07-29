@@ -1,11 +1,11 @@
 import { apiResponse } from "@/utils/api/response";
 
 export const POST = async (request: Request) => {
-  const { domain, vercelProjectId } = await request.json();
+  const { domain } = await request.json();
 
   try {
     const response = await fetch(
-      `https://api.vercel.com/v10/projects/${vercelProjectId}/domains`,
+      `https://api.vercel.com/v10/projects/${process.env.MARKDOWN_VERCEL_ID}/domains`,
       {
         method: "POST",
         headers: {
@@ -13,7 +13,7 @@ export const POST = async (request: Request) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: domain,
+          name: domain + process.env.MARKDOWN_DOMAIN,
         }),
       }
     );

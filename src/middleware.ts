@@ -1,7 +1,12 @@
-import { withMiddlewareAuthRequired } from "@auth0/nextjs-auth0/edge";
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/services/database/middleware";
 
-export default withMiddlewareAuthRequired();
+export async function middleware(request: NextRequest) {
+  return await updateSession(request);
+}
 
 export const config = {
-  matcher: "/profile/:path*",
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
 };
