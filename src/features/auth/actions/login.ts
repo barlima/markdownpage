@@ -5,22 +5,18 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/services/database/server";
 
-export async function login(formData: FormData) {
+export async function login(email: string, password: string) {
   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
-
-  const { error } = await supabase.auth.signInWithPassword(data);
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (error) {
-    redirect("/error");
+    return { error: error.message };
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/markdown");
 }

@@ -27,16 +27,18 @@ const UserProjectPage: React.FC = async () => {
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="md">
       <Stack gap={2}>
-        <Typography variant="h1">Project Body</Typography>
-
-        <Domain domain={markdown.domain} />
-
-        <ContentEditor
-          content={markdown.markdown}
+        <Domain
           id={markdown.id}
           userId={markdown.userId}
+          domain={markdown.domain}
+        />
+
+        <ContentEditor
+          id={markdown.id}
+          userId={markdown.userId}
+          content={markdown.markdown}
         />
       </Stack>
     </Container>

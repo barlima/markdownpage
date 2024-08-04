@@ -1,4 +1,4 @@
-import { updateMarkdown } from "@/features/editor/services/database/updateMarkdown";
+import { updateDomain } from "@/features/editor/services/database/updateDomain";
 import { apiResponse } from "@/utils/api/response";
 
 export const PATCH = async (
@@ -6,21 +6,21 @@ export const PATCH = async (
   { params }: { params: { id: string } }
 ) => {
   const { id } = params;
-  const { markdown, userId } = await request.json();
+  const { domain, userId } = await request.json();
 
-  if (!markdown || !userId || !id) {
+  if (!domain || !userId || !id) {
     return apiResponse({ message: "Missing required parameters" }, 400);
   }
 
   try {
-    const { error, status } = await updateMarkdown(id, userId, markdown);
+    const { error, status } = await updateDomain(id, userId, domain);
 
     if (error) {
       return apiResponse({ message: error.message }, status);
     }
 
-    return apiResponse(null, status);
+    return apiResponse(null, 204);
   } catch (error) {
-    return apiResponse({ message: "Error updating content" }, 500);
+    return apiResponse({ message: "Error creating domain" }, 500);
   }
 };

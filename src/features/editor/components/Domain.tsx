@@ -1,13 +1,23 @@
 "use client";
 
-import { Alert, Box, Button, Stack, TextField } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 
 type DomainProps = {
   domain: string;
+  id: number;
+  userId: string;
 };
 
-export const Domain: React.FC<DomainProps> = ({ domain }) => {
+export const Domain: React.FC<DomainProps> = ({ domain, id, userId }) => {
   const [error, setError] = useState<Error | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,13 +26,11 @@ export const Domain: React.FC<DomainProps> = ({ domain }) => {
     const domain = event.currentTarget.domain.value;
 
     try {
-      await fetch(`/api/domain`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      await fetch(process.env.NEXT_PUBLIC_URL + `/api/domain/${id}`, {
+        method: "PATCH",
         body: JSON.stringify({
-          domain: domain,
+          domain,
+          userId,
         }),
       });
     } catch (error) {
@@ -46,6 +54,13 @@ export const Domain: React.FC<DomainProps> = ({ domain }) => {
           defaultValue={domain}
           label="Domain"
           fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Typography variant="caption">.markdownpage.com</Typography>
+              </InputAdornment>
+            ),
+          }}
         />
         <Box>
           <Button

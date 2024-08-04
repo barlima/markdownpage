@@ -6,13 +6,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/services/database/server";
 import { createMarkdown } from "@/features/editor/services/database/createMarkdown";
 
-export async function signup(formData: FormData) {
+export async function signup(email: string, password: string) {
   const supabase = createClient();
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
 
   const { error, data: response } = await supabase.auth.signUp({
     email,
@@ -25,7 +20,7 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    redirect("/error");
+    return { error: error.message };
   }
 
   if (response.user?.id) {

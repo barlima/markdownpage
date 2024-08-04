@@ -1,12 +1,13 @@
 import { Header } from "@/layout/Header";
 import React from "react";
 
-const Home: React.FC = () => {
+export default function Layout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
       <Header />
+      {children}
     </>
   );
-};
-
-export default Home;
+}
